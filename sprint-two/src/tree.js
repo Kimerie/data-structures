@@ -20,25 +20,44 @@ treeMethods.addChild = function(value){
 
 treeMethods.contains = function(target){
   var found = false;
-  var nodeToSearch = this.children;
-  if (nodeToSearch.length === 0){
-    return;
-  }
 
-  _.each(nodeToSearch, function(item, index, collection) {
-    console.log(item);
-    console.log('target inside each', target);
-    if (target === item.value){
-      console.log(item);
-      found = true;
-    } else {
-      console.log("we in here!!")
-      console.log("this is the node's children", item.children);
-      item.contains(target);
+  var searchNode = function(nodeList, target){
+    nodeList = nodeList || this.children
+
+
+    if(nodeList.length === 0){
+      return;
     }
-  });
+
+    for(var i = 0; i < nodeList.length; i++){
+      var childNode = nodeList[i]
+        console.log('children before if', childNode.children)
+      if(childNode.value === target){
+        found = true;
+        console.log(childNode.children)
+        return;
+      } else {
+        console.log('children in recursion', childNode.children)       
+        searchNode(childNode.children, target)    
+      }
+    }
+  };
+  searchNode(this.children, target);
+
   return found;
 };
+  // _.each(nodeToSearch, function(item, index, collection) {
+  //   console.log(item);
+  //   console.log('target inside each', target);
+  //   if (target === item.value){
+  //     console.log(item);
+  //     found = true;
+  //   } else {
+  //     console.log("we in here!!")
+  //     console.log("this is the node's children", item.children);
+  //     item.contains(target);
+  //   }
+  // });
 
 
 /*
